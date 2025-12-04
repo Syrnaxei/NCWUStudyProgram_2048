@@ -3,7 +3,7 @@ package com.syrnaxei.terminal2048;
 import java.util.Random;
 
 public class BoardControl {
-    int[][] board;
+    private int[][] board;
     Random random = new Random();
 
     //创建棋盘方法
@@ -70,5 +70,12 @@ public class BoardControl {
             }
         }
         return true;
+    }
+    public int[][] getBoard() {
+        return board;
+    }
+
+    public void setBoard(int[][] board){
+        this.board = board;
     }
 }
