@@ -15,11 +15,20 @@ public class InputHandle {
         while(true){
             String input = scanner.next().toLowerCase(); //全部转化为小写
             switch(input){
-                case GameConfig.RIGHT :
+                case GameConfig.RIGHT:
                     mergeLogic.mergeRight();
                     return;
+                case GameConfig.LEFT:
+                    mergeLogic.mergeLeft();
+                    return;
+                case GameConfig.UP:
+                    mergeLogic.mergeUp();
+                    return;
+                case GameConfig.DOWN:
+                    mergeLogic.mergeDown();
+                    return;
                 default :
-                    System.out.println("20251204目前只写了右功能，重新输入");
+                    System.out.println("20251204目前只写了左右功能，重新输入");
                     return;
             }
         }
