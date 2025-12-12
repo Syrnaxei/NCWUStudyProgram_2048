@@ -11,10 +11,6 @@ public class GameConfig {
     public static final String LEFT = "a";
     public static final String RIGHT = "d";
 
-    //===================================  GUI  配置  ===================================
-    public static final int TILE_SIZE = 100; //方块大小
-    public static final int GAP = 10; //方块间距
-
     //====================================  其他 配置  ====================================
     public static boolean isTestMode = false; //是否处在测试模式
 }
