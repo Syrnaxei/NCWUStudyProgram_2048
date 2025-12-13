@@ -7,7 +7,7 @@ public class InputHandle {
     private final MergeLogic mergeLogic;
 
     public InputHandle(MergeLogic mergeLogic) {
-        this.scanner = new Scanner(System.in); //scanner的this 好像加不加都行，这里加上好看
+        this.scanner = new Scanner(System.in);
         this.mergeLogic = mergeLogic;
     }
 
