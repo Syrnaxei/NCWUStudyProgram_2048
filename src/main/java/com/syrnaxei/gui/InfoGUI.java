@@ -42,33 +42,29 @@ public class InfoGUI extends JFrame {
         ncwuPicPanel.add(ncwuPicLabel,BorderLayout.CENTER);
         add(ncwuPicPanel,BorderLayout.NORTH);
 
-        //=====  mid-area of the info window  =====
-        JPanel textPanel = new JPanel(new BorderLayout());
-        textPanel.setPreferredSize(new Dimension(500,400)); //the high of mid-part
+//=====  mid-area of the info window  =====
+        JPanel textPanel = new JPanel();
+        textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS)); // 垂直布局
+        textPanel.setPreferredSize(new Dimension(500, 400));
+        textPanel.setBackground(new Color(180, 200, 215));
 
-        //text Part
-        JTextArea textArea = new JTextArea(
-                "    Final Assignment for Java Course (3rd Semester)\n" +
-                        "    North China University of Water Resources and Electric Power\n\n" +
-                        "    Project Name: Classic 2048 Game (GUI Version)\n" +
-                        "    Project Description: A 2048 game implemented with Java Swing\n\n" +
-                        "    Special thanks to Liew for his assistance in GUI interface design\n\n" +
-                        "                        Development Team:       Java Study Group\n" +
-                        "                        Completion Time: December 13, 2025 22:34"
-        );
-        textArea.setFont(new Font("Arial", Font.PLAIN, 18));
-        textArea.setLineWrap(true); //自动换行
-        textArea.setWrapStyleWord(true); //单词边界换行
-        textArea.setEditable(false);
-        textArea.setBackground(new Color(180, 200, 215));
+        // 标题
+        JLabel titleLabel = new JLabel("关于");
+        titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 26));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 居中对齐
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 5, 20, 0)); // 上下边距
+        textPanel.add(titleLabel);
 
-        textPanel.add(textArea,BorderLayout.CENTER);
-        add(textPanel,BorderLayout.CENTER);
+        textPanel.add(createPersonItem("/images/member/syrnaxei.png", "Syrnaxei","LOGIC"));
+        textPanel.add(createPersonItem("/images/member/liew.png", "LiewYoung","GUI"));
+        textPanel.add(createPersonItem("/images/member/wang.png", "王兵","PPT"));
+
+        add(textPanel, BorderLayout.CENTER);
 
         //===== end area of the info window  =====
-        JPanel linkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,60,20));
+        JPanel linkPanel = new JPanel(new FlowLayout(FlowLayout.CENTER,80,10));
         linkPanel.setBackground(new Color(100,160,205));
-        linkPanel.setPreferredSize(new Dimension(500,100));
+        linkPanel.setPreferredSize(new Dimension(500,80));
 
         JLabel link1 = createLinkLabel(githubLogo,"https://github.com/Syrnaxei/NCWUStudyProject_2048");
         JLabel link2 = createLinkLabel(ncwuEmblem,"https://www.ncwu.edu.cn/");
@@ -79,7 +75,7 @@ public class InfoGUI extends JFrame {
         add(linkPanel,BorderLayout.SOUTH);
 
 
-        // 关闭信息窗口后，主窗口重新获取焦点
+        //omg i cant touch anything
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
@@ -93,7 +89,7 @@ public class InfoGUI extends JFrame {
     }
 
 
-    // 创建带链接的Label（从原 GameGUI 中迁移）
+    // 创建带链接的Label
     private JLabel createLinkLabel(Image image,String url) {
         JLabel label = new JLabel();
 
@@ -111,5 +107,41 @@ public class InfoGUI extends JFrame {
         });
 
         return label;
+    }
+
+    // 生成成员信息条目
+    private JPanel createPersonItem(String avatarPath, String name, String responsibleSection) {
+        // 外层FlowLayout左对齐
+        JPanel itemPanel = new JPanel(new FlowLayout(FlowLayout.LEFT, 20, 10));
+        itemPanel.setOpaque(false);
+        itemPanel.setMaximumSize(new Dimension(400, 80)); // 限制宽度，避免文字太分散
+
+        // 1. 头像
+        ImageIcon avatarIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(avatarPath)));
+        Image scaledAvatar = avatarIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
+        JLabel avatarLabel = new JLabel(new ImageIcon(scaledAvatar));
+        itemPanel.add(avatarLabel);
+
+        // 2. 文字区域
+        JPanel textItemPanel = new JPanel();
+        textItemPanel.setLayout(new BoxLayout(textItemPanel, BoxLayout.Y_AXIS));
+        textItemPanel.setOpaque(false);
+        textItemPanel.setAlignmentX(Component.LEFT_ALIGNMENT); // 文字区域左对齐
+
+        // 姓名
+        JLabel nameLabel = new JLabel(name);
+        nameLabel.setFont(new Font("微软雅黑", Font.BOLD, 22));
+        nameLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textItemPanel.add(nameLabel);
+
+        // 职责
+        JLabel sectionLabel = new JLabel(responsibleSection);
+        sectionLabel.setFont(new Font("微软雅黑", Font.PLAIN, 16));
+        sectionLabel.setForeground(new Color(80,80,80));
+        sectionLabel.setAlignmentX(Component.LEFT_ALIGNMENT);
+        textItemPanel.add(sectionLabel);
+
+        itemPanel.add(textItemPanel);
+        return itemPanel;
     }
 }

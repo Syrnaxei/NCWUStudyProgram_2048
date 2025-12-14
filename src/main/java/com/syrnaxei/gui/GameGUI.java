@@ -10,8 +10,8 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class GameGUI extends JFrame {
-    private BoardControl boardControl;
-    private MergeLogic mergeLogic;
+    private final BoardControl board;
+    private final MergeLogic mergeLogic;
     private TilePanel[][] tilePanels;
     private JLabel scoreLabel;
 
@@ -19,8 +19,8 @@ public class GameGUI extends JFrame {
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
 
 
-    public GameGUI(BoardControl boardControl, MergeLogic mergeLogic) {
-        this.boardControl = boardControl;
+    public GameGUI(BoardControl board, MergeLogic mergeLogic) {
+        this.board = board;
         this.mergeLogic = mergeLogic;
         initializeUI();
         setupKeyListener();
@@ -46,9 +46,17 @@ public class GameGUI extends JFrame {
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
         topPanel.add(scoreLabel,BorderLayout.WEST);
 
+        //refresh button
+        JPanel refreshPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        refreshPanel.setOpaque(false);
+        JButton refreshButton = createRefreshButton();
+        refreshPanel.add(refreshButton);
+        topPanel.add(refreshPanel,BorderLayout.CENTER);
+
+
         //info Button
-        JButton infoButton = createInfoButton();
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton infoButton = createInfoButton();
         buttonPanel.setOpaque(false);
         buttonPanel.add(infoButton);
         topPanel.add(buttonPanel,BorderLayout.EAST);
@@ -87,11 +95,22 @@ public class GameGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
-    //infoButton 点击后打开 InfoGUI
+    //infoButton create fuc
     private JButton createInfoButton() {
         JButton infoButton = new JButton("i");
         infoButton.addActionListener(_ -> new InfoGUI(this, infoIcon)); // 调用 InfoGUI
         return infoButton;
+    }
+
+    //refreshButton creat fuc
+    private JButton createRefreshButton() {
+        JButton refreshBotton = new JButton("R");
+        refreshBotton.addActionListener(_ ->{
+            board.resetBoard();
+            refreshBoard();
+            this.requestFocusInWindow();
+        });
+        return refreshBotton;
     }
 
 
@@ -100,33 +119,33 @@ public class GameGUI extends JFrame {
             @Override
             public void keyPressed(KeyEvent e) {
                 boolean moved = false;
-                int[][] boardBefore = copyBoard(boardControl.getBoard());
+                int[][] boardBefore = copyBoard(board.getBoard());
 
                 switch (e.getKeyCode()) {
                     case KeyEvent.VK_W:
                     case KeyEvent.VK_UP:
                         mergeLogic.mergeUp();
-                        moved = !boardsEqual(boardBefore, boardControl.getBoard());
+                        moved = !boardsEqual(boardBefore, board.getBoard());
                         break;
                     case KeyEvent.VK_S:
                     case KeyEvent.VK_DOWN:
                         mergeLogic.mergeDown();
-                        moved = !boardsEqual(boardBefore, boardControl.getBoard());
+                        moved = !boardsEqual(boardBefore, board.getBoard());
                         break;
                     case KeyEvent.VK_A:
                     case KeyEvent.VK_LEFT:
                         mergeLogic.mergeLeft();
-                        moved = !boardsEqual(boardBefore, boardControl.getBoard());
+                        moved = !boardsEqual(boardBefore, board.getBoard());
                         break;
                     case KeyEvent.VK_D:
                     case KeyEvent.VK_RIGHT:
                         mergeLogic.mergeRight();
-                        moved = !boardsEqual(boardBefore, boardControl.getBoard());
+                        moved = !boardsEqual(boardBefore, board.getBoard());
                         break;
                 }
 
                 if (moved) {
-                    boardControl.addNumber();
+                    board.addNumber();
                     refreshBoard();
                     checkGameOver();
                 }
@@ -158,8 +177,8 @@ public class GameGUI extends JFrame {
     }
 
     public void refreshBoard() {
-        int[][] board = boardControl.getBoard();
-        int score = boardControl.getScore();
+        int[][] board = this.board.getBoard();
+        int score = this.board.getScore();
 
         // 更新分数显示
         SwingUtilities.invokeLater(() -> {
@@ -175,9 +194,11 @@ public class GameGUI extends JFrame {
     }
 
     private void checkGameOver() {
-        if (boardControl.isGameOver()) {
+        if (board.isGameOver()) {
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(this, "Game Over! Final Score: " + boardControl.getScore());
+                JOptionPane.showMessageDialog(this, "Game Over! Final Score: " + board.getScore());
+                board.resetBoard();
+                refreshBoard();
             });
         }
     }
@@ -255,11 +276,11 @@ public class GameGUI extends JFrame {
                     valueLabel.setForeground(Color.WHITE);
                     break;
                 case 2048:
-                    setBackground(new Color(0, 45, 95));     // 最深蓝（主色极致版）
+                    setBackground(new Color(0, 45, 95));     // 最深蓝
                     valueLabel.setForeground(Color.WHITE);
                     break;
                 default:
-                    setBackground(new Color(30, 30, 40));    // 暗蓝色（替代原灰色）
+                    setBackground(new Color(30, 30, 40));    // 暗蓝色
                     valueLabel.setForeground(Color.WHITE);
                     break;
             }

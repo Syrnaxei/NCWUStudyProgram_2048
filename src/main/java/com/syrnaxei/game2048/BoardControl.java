@@ -108,4 +108,11 @@ public class BoardControl {
     public void setBoard(int[][] board){
         this.board = board;
     }
+
+    public void resetBoard() {
+        board = new int[GameConfig.BOARD_SIZE][GameConfig.BOARD_SIZE];
+        score = 0;
+        addNumber();
+        addNumber();
+    }
 }
