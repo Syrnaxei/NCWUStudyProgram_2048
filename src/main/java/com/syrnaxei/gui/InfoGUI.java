@@ -52,13 +52,12 @@ public class InfoGUI extends JFrame {
         JLabel titleLabel = new JLabel("关于");
         titleLabel.setFont(new Font("微软雅黑", Font.BOLD, 26));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT); // 居中对齐
-        titleLabel.setBorder(BorderFactory.createEmptyBorder(10, 5, 10, 0)); // 上下边距
+        titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 0)); // 上下边距
         textPanel.add(titleLabel);
 
         textPanel.add(createPersonItem("/images/member/syrnaxei.png", "Syrnaxei","FRAME & LOGIC"));
         textPanel.add(createPersonItem("/images/member/liew.png", "LiewYoung","GUI Support"));
         textPanel.add(createPersonItem("/images/member/wang.png", "王兵","PPT"));
-        textPanel.add(createPersonItem("/images/member/kimi-color.png", "Kimi","BUG FIX"));
 
         add(textPanel, BorderLayout.CENTER);
 
@@ -119,7 +118,7 @@ public class InfoGUI extends JFrame {
 
         // 1. 头像
         ImageIcon avatarIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource(avatarPath)));
-        Image scaledAvatar = avatarIcon.getImage().getScaledInstance(60, 60, Image.SCALE_SMOOTH);
+        Image scaledAvatar = avatarIcon.getImage().getScaledInstance(70, 70, Image.SCALE_SMOOTH);
         JLabel avatarLabel = new JLabel(new ImageIcon(scaledAvatar));
         itemPanel.add(avatarLabel);
 
