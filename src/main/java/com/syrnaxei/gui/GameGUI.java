@@ -46,18 +46,12 @@ public class GameGUI extends JFrame {
         scoreLabel.setFont(new Font("Arial", Font.BOLD, 20));
         topPanel.add(scoreLabel,BorderLayout.WEST);
 
-        //refresh button
-        JPanel refreshPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        refreshPanel.setOpaque(false);
-        JButton refreshButton = createRefreshButton();
-        refreshPanel.add(refreshButton);
-        topPanel.add(refreshPanel,BorderLayout.CENTER);
-
-
         //info Button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JButton refreshButton = createRefreshButton();
         JButton infoButton = createInfoButton();
         buttonPanel.setOpaque(false);
+        buttonPanel.add(refreshButton);
         buttonPanel.add(infoButton);
         topPanel.add(buttonPanel,BorderLayout.EAST);
 
@@ -85,7 +79,7 @@ public class GameGUI extends JFrame {
 
         // 创建底部面板（说明）
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        JLabel instructionLabel = new JLabel("Use WASD or Arrow Keys to move tiles , press R to reset the board");
+        JLabel instructionLabel = new JLabel("Use WASD or Arrow Keys to move tiles,Press R to reset the board.");
         instructionLabel.setFont(new Font("Arial", Font.PLAIN, 14));
         bottomPanel.add(instructionLabel);
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);

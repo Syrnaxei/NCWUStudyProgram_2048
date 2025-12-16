@@ -16,7 +16,7 @@ public class InfoGUI extends JFrame {
     Image ncwuEmblem = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/2048/ncwu_emblem.png"))).getImage().getScaledInstance(65,65,Image.SCALE_SMOOTH);
 
 
-    // 构造方法：接收主窗口（GameGUI）和图标
+    // 构造方法：接收主窗口和图标
     public InfoGUI(GameGUI mainFrame, ImageIcon infoIcon) {
         initializeInfoWindow(mainFrame, infoIcon);
     }
@@ -42,7 +42,7 @@ public class InfoGUI extends JFrame {
         ncwuPicPanel.add(ncwuPicLabel,BorderLayout.CENTER);
         add(ncwuPicPanel,BorderLayout.NORTH);
 
-//=====  mid-area of the info window  =====
+        //=====  mid-area of the info window  =====
         JPanel textPanel = new JPanel();
         textPanel.setLayout(new BoxLayout(textPanel, BoxLayout.Y_AXIS)); // 垂直布局
         textPanel.setPreferredSize(new Dimension(500, 400));
@@ -57,7 +57,7 @@ public class InfoGUI extends JFrame {
 
         textPanel.add(createPersonItem("/images/member/syrnaxei.png", "Syrnaxei","FRAME & LOGIC"));
         textPanel.add(createPersonItem("/images/member/liew.png", "LiewYoung","GUI Support"));
-        textPanel.add(createPersonItem("/images/member/wang.png", "王兵","PPT"));
+        textPanel.add(createPersonItem("/images/member/wang.png", "王兵","PPT & Other"));
 
         add(textPanel, BorderLayout.CENTER);
 
@@ -75,7 +75,7 @@ public class InfoGUI extends JFrame {
         add(linkPanel,BorderLayout.SOUTH);
 
 
-        //omg I cant touch anything
+        //omg I cant touch anything // bugfix
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosed(WindowEvent e) {
