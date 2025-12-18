@@ -55,9 +55,9 @@ public class InfoGUI extends JFrame {
         titleLabel.setBorder(BorderFactory.createEmptyBorder(15, 5, 15, 0)); // 上下边距
         textPanel.add(titleLabel);
 
-        textPanel.add(createPersonItem("/images/member/syrnaxei.png", "Syrnaxei","FRAME & LOGIC"));
+        textPanel.add(createPersonItem("/images/member/syrnaxei.png", "AAA旺旺嫩布丁批发陈哥","FRAME & LOGIC"));
         textPanel.add(createPersonItem("/images/member/liew.png", "LiewYoung","GUI Support"));
-        textPanel.add(createPersonItem("/images/member/wang.png", "王兵","PPT & Other"));
+        textPanel.add(createPersonItem("/images/member/wang.png", "Ftdcb","PPT & Others"));
 
         add(textPanel, BorderLayout.CENTER);
 
@@ -66,7 +66,7 @@ public class InfoGUI extends JFrame {
         linkPanel.setBackground(new Color(100,160,205));
         linkPanel.setPreferredSize(new Dimension(500,80));
 
-        JLabel link1 = createLinkLabel(githubLogo,"https://github.com/Syrnaxei/NCWUStudyProject_2048");
+        JLabel link1 = createLinkLabel(githubLogo,"https://github.com/Syrnaxei/NCWUStudyProgram_2048");
         JLabel link2 = createLinkLabel(ncwuEmblem,"https://www.ncwu.edu.cn/");
 
         linkPanel.add(link1);

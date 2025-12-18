@@ -71,7 +71,7 @@ public class BoardControl {
         this.score += score;
     }
 
-    //===================================  游戏结束 方法  ===================================
+    //===================================  游戏失败 方法  ===================================
     public boolean isGameOver() {
         //检查棋盘上是否有空位
         for(int i = 0; i < GameConfig.BOARD_SIZE; i++){
@@ -100,6 +100,18 @@ public class BoardControl {
         return true;
     }
 
+    //===================================  游戏胜利 方法  ===================================
+    public boolean isGameWin() {
+        for(int i = 0; i < GameConfig.BOARD_SIZE; i++){
+            for(int j = 0; j < GameConfig.BOARD_SIZE; j++){
+                if(board[i][j] >= 2048){
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     //===================================  棋盘调用 方法  ===================================
     public int[][] getBoard() {
         return board;
@@ -114,5 +126,29 @@ public class BoardControl {
         score = 0;
         addNumber();
         addNumber();
+    }
+
+    //====================================  作弊 方法  ====================================
+    public void cheat() {
+        String input = javax.swing.JOptionPane.showInputDialog("请输入行数 列数 数字（用空格分隔）:");
+        if(input != null && !input.trim().isEmpty()) {
+            String[] parts = input.split(" ");
+            if(parts.length >= 3) {
+                try {
+                    int row = Integer.parseInt(parts[0]);
+                    int col = Integer.parseInt(parts[1]);
+                    int num = Integer.parseInt(parts[2]);
+                    if(row >= 0 && row < GameConfig.BOARD_SIZE && col >= 0 && col < GameConfig.BOARD_SIZE) {
+                        board[row][col] = num;
+                    } else {
+                        javax.swing.JOptionPane.showMessageDialog(null, "行列数超出范围!");
+                    }
+                } catch(NumberFormatException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "输入格式错误!");
+                }
+            } else {
+                javax.swing.JOptionPane.showMessageDialog(null, "输入参数不足!");
+            }
+        }
     }
 }

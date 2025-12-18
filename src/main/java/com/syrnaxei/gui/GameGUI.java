@@ -8,12 +8,14 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
+import java.util.Scanner;
 
 public class GameGUI extends JFrame {
     private final BoardControl board;
     private final MergeLogic mergeLogic;
     private TilePanel[][] tilePanels;
     private JLabel scoreLabel;
+    Scanner scanner = new Scanner(System.in);
 
     ImageIcon gameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/game_icon.png")));
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
@@ -140,6 +142,11 @@ public class GameGUI extends JFrame {
                         board.resetBoard();
                         refreshBoard();
                         break;
+                    case KeyEvent.VK_C:
+                        board.cheat();
+                        refreshBoard();
+                        checkGameOver();
+                        break;
                 }
 
                 if (moved) {
@@ -192,6 +199,14 @@ public class GameGUI extends JFrame {
     }
 
     private void checkGameOver() {
+        if (board.isGameWin()) {
+            SwingUtilities.invokeLater(() -> {
+                JOptionPane.showMessageDialog(this, "You win! Final Score: " + board.getScore());
+                board.resetBoard();
+                refreshBoard();
+            });
+            return;
+        }
         if (board.isGameOver()) {
             SwingUtilities.invokeLater(() -> {
                 JOptionPane.showMessageDialog(this, "Game Over! Final Score: " + board.getScore());
