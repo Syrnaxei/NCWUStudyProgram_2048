@@ -8,14 +8,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.Objects;
-import java.util.Scanner;
 
 public class GameGUI extends JFrame {
     private final BoardControl board;
     private final MergeLogic mergeLogic;
     private TilePanel[][] tilePanels;
     private JLabel scoreLabel;
-    Scanner scanner = new Scanner(System.in);
 
     ImageIcon gameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/game_icon.png")));
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
@@ -79,7 +77,7 @@ public class GameGUI extends JFrame {
 
         mainPanel.add(gridPanel, BorderLayout.CENTER);
 
-        // 创建底部面板（说明）
+        // 创建底部面板
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
         JLabel instructionLabel = new JLabel("Use WASD or Arrow Keys to move tiles,Press R to reset the board.");
         instructionLabel.setFont(new Font("Arial", Font.PLAIN, 14));
@@ -201,7 +199,11 @@ public class GameGUI extends JFrame {
     private void checkGameOver() {
         if (board.isGameWin()) {
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(this, "You win! Final Score: " + board.getScore());
+                JOptionPane.showMessageDialog(this, "Win! Final Score: " + board.getScore() + "\nHistory Best Score : " + GameConfig.bestScore);
+                if(GameConfig.bestScore < board.getScore()){
+                    GameConfig.bestScore = board.getScore();
+                    GameConfig.saveBestScore();
+                }
                 board.resetBoard();
                 refreshBoard();
             });
@@ -209,7 +211,11 @@ public class GameGUI extends JFrame {
         }
         if (board.isGameOver()) {
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(this, "Game Over! Final Score: " + board.getScore());
+                JOptionPane.showMessageDialog(this, "Game Over! Final Score: " + board.getScore() + "\nHistory Best Score : " + GameConfig.bestScore);
+                if(GameConfig.bestScore < board.getScore()){
+                    GameConfig.bestScore = board.getScore();
+                    GameConfig.saveBestScore();
+                }
                 board.resetBoard();
                 refreshBoard();
             });

@@ -1,16 +1,110 @@
 package com.syrnaxei.game2048;
 
-public class GameConfig {
-    //====================================  静态 变量  ====================================
-    public static final int BOARD_SIZE = 4; //棋盘大小
-    public static final int S_FOUR_P = 10; //生成4的概率，设为20%
+import java.io.*;
+import java.util.Properties;
 
-    //====================================  按键 映射  ====================================
+public class GameConfig {
+    //==================================== 固定方向键（不再可配置）====================================
     public static final String UP = "w";
-    public static final  String DOWN = "s";
+    public static final String DOWN = "s";
     public static final String LEFT = "a";
     public static final String RIGHT = "d";
 
-    //====================================  其他 配置  ====================================
-    public static boolean isTestMode = false; //是否处在测试模式
+    //==================================== 可配置项 ====================================
+    public static int BOARD_SIZE = 4;
+    public static int S_FOUR_P = 10;
+    public static boolean isTestMode = false;
+
+    //==================================== 最高分（自动保存）====================================
+    public static int bestScore = 0;
+
+    private static final String CONFIG_FILE = "config.properties";   // 仅用于 BOARD_SIZE / S_FOUR_P / isTestMode
+    private static final String SCORE_FILE = "score.properties";     // 仅用于 bestScore
+
+    //==================================== 加载配置 ====================================
+    public static void loadConfig() {
+        // 1. 加载 config.properties（仅读取非方向键配置）
+        Properties configProps = new Properties();
+        InputStream input = GameConfig.class.getClassLoader().getResourceAsStream(CONFIG_FILE);
+
+        File externalConfig = new File(CONFIG_FILE);
+        if (externalConfig.exists()) {
+            try {
+                input = new FileInputStream(externalConfig);
+            } catch (FileNotFoundException ignored) {}
+        }
+
+        if (input != null) {
+            try {
+                configProps.load(input);
+                BOARD_SIZE = getIntProperty(configProps, "BOARD_SIZE", 4);
+                S_FOUR_P = getIntProperty(configProps, "S_FOUR_P", 10);
+                isTestMode = getBooleanProperty(configProps, "isTestMode", false);
+                // 注意：UP/DOWN/LEFT/RIGHT 不再从配置读取
+            } catch (IOException e) {
+                System.err.println("加载 config.properties 失败: " + e.getMessage());
+            } finally {
+                try {
+                    input.close();
+                } catch (IOException ignored) {}
+            }
+        } else {
+            System.out.println("未找到 config.properties，使用默认游戏设置");
+        }
+
+        // 2. 加载 score.properties（最高分）
+        File scoreFile = new File(SCORE_FILE);
+        if (scoreFile.exists()) {
+            Properties scoreProps = new Properties();
+            try (FileInputStream in = new FileInputStream(scoreFile)) {
+                scoreProps.load(in);
+                bestScore = getIntProperty(scoreProps, "bestScore", 0);
+            } catch (IOException e) {
+                System.err.println("加载 score.properties 失败，使用默认最高分 0: " + e.getMessage());
+            }
+        } else {
+            System.out.println("未找到 score.properties，最高分初始化为 0");
+        }
+    }
+
+    //==================================== 保存最高分 ====================================
+    public static void saveBestScore() {
+        Properties props = new Properties();
+        File scoreFile = new File(SCORE_FILE);
+
+        // 如果已存在，先读取（保留未来扩展字段）
+        if (scoreFile.exists()) {
+            try (FileInputStream in = new FileInputStream(scoreFile)) {
+                props.load(in);
+            } catch (IOException e) {
+                System.err.println("读取 score.properties 失败，将覆盖创建: " + e.getMessage());
+            }
+        }
+
+        props.setProperty("bestScore", String.valueOf(bestScore));
+
+        try (FileOutputStream out = new FileOutputStream(scoreFile)) {
+            props.store(out, "Game2048 - 最高分自动保存");
+        } catch (IOException e) {
+            System.err.println("无法保存最高分到 score.properties: " + e.getMessage());
+        }
+    }
+
+    //==================================== 辅助方法 ====================================
+    private static int getIntProperty(Properties props, String key, int defaultValue) {
+        String val = props.getProperty(key);
+        if (val == null || val.trim().isEmpty()) return defaultValue;
+        try {
+            return Integer.parseInt(val.trim());
+        } catch (NumberFormatException e) {
+            System.err.println("无效整数: " + key + "=" + val + ", 使用默认值 " + defaultValue);
+            return defaultValue;
+        }
+    }
+
+    private static boolean getBooleanProperty(Properties props, String key, boolean defaultValue) {
+        String val = props.getProperty(key);
+        if (val == null || val.trim().isEmpty()) return defaultValue;
+        return Boolean.parseBoolean(val.trim());
+    }
 }

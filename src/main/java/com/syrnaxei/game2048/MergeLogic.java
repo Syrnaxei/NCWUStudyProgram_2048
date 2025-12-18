@@ -3,7 +3,7 @@ package com.syrnaxei.game2048;
 import java.util.Arrays;
 
 public class MergeLogic {
-    private BoardControl board;
+    private final BoardControl board;
 
     public MergeLogic(BoardControl board){
         this.board = board;
