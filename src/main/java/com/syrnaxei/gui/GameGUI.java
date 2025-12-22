@@ -13,7 +13,8 @@ public class GameGUI extends JFrame {
     private final BoardControl board;
     private final MergeLogic mergeLogic;
     private TilePanel[][] tilePanels;
-    private JLabel scoreLabel;
+    private JButton scoreButton;
+    private boolean scoreButtonState;
 
     ImageIcon gameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/game_icon.png")));
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
@@ -41,10 +42,12 @@ public class GameGUI extends JFrame {
         // 创建顶部面板（分数）
         JPanel topPanel = new JPanel(new BorderLayout());
 
-        //分数标签
-        scoreLabel = new JLabel();
-        scoreLabel.setFont(new Font("微软雅黑", Font.BOLD, 18));
-        topPanel.add(scoreLabel,BorderLayout.WEST);
+        //分数/历史最高分切换按键
+        JPanel scorePanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        scoreButton = createScoreButton();
+        styleScoreButton(scoreButton);
+        scorePanel.add(scoreButton);
+        topPanel.add(scorePanel);
 
         //info Button
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
@@ -89,6 +92,24 @@ public class GameGUI extends JFrame {
         setLocationRelativeTo(null);
     }
 
+    private JButton createScoreButton() {
+        JButton scoreButton = new JButton();
+        styleScoreButton(scoreButton);
+        scoreButtonState = false;
+        scoreButton.addActionListener(_ -> {
+            if(!scoreButtonState){
+                scoreButton.setText("历史最高分: " + GameConfig.bestScore);
+                scoreButtonState = true;
+            }else{
+                scoreButton.setText("分数: " + board.getScore());
+                scoreButtonState = false;
+            }
+            this.requestFocusInWindow();
+        });
+
+        return scoreButton;
+    }
+
     //infoButton create fuc
     private JButton createInfoButton() {
         JButton infoButton = new JButton("i");
@@ -118,6 +139,18 @@ public class GameGUI extends JFrame {
         button.setContentAreaFilled(true);
         button.setOpaque(true);
         button.setPreferredSize(new Dimension(30, 30)); // 设置按钮为正方形
+    }
+
+    private void styleScoreButton(JButton button) {
+        button.setLayout(new FlowLayout(FlowLayout.LEFT));
+        button.setHorizontalAlignment(SwingConstants.LEFT);
+        button.setFont(new Font("微软雅黑", Font.BOLD, 14));
+        button.setBackground(new Color(100, 160, 205)); // 使用与棋盘一致的蓝色系
+        button.setForeground(Color.WHITE);
+        button.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置相等的边距
+        button.setFocusPainted(false);
+        button.setContentAreaFilled(true);
+        button.setOpaque(true);
     }
 
 
@@ -198,7 +231,9 @@ public class GameGUI extends JFrame {
 
         // 更新分数显示
         SwingUtilities.invokeLater(() -> {
-            scoreLabel.setText("分数: " + score);
+            if(!scoreButtonState){
+                scoreButton.setText("分数: " + score);
+            }
 
             // 更新方格显示
             for (int i = 0; i < GameConfig.BOARD_SIZE; i++) {
