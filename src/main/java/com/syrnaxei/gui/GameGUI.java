@@ -1,6 +1,6 @@
 package com.syrnaxei.gui;
 
-import com.syrnaxei.game2048.BoardControl;
+import com.syrnaxei.game2048.Board;
 import com.syrnaxei.game2048.GameConfig;
 import com.syrnaxei.game2048.MergeLogic;
 
@@ -10,7 +10,7 @@ import java.awt.event.*;
 import java.util.Objects;
 
 public class GameGUI extends JFrame {
-    private final BoardControl board;
+    private final Board board;
     private final MergeLogic mergeLogic;
     private TilePanel[][] tilePanels;
     private JButton scoreButton;
@@ -21,7 +21,7 @@ public class GameGUI extends JFrame {
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
 
 
-    public GameGUI(BoardControl board, MergeLogic mergeLogic) {
+    public GameGUI(Board board, MergeLogic mergeLogic) {
         this.board = board;
         this.mergeLogic = mergeLogic;
         initializeUI();

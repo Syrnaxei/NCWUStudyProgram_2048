@@ -1,4 +1,4 @@
-import com.syrnaxei.game2048.BoardControl;
+import com.syrnaxei.game2048.Board;
 import com.syrnaxei.game2048.GameConfig;
 import com.syrnaxei.game2048.MergeLogic;
 import com.syrnaxei.gui.GameGUI;
@@ -9,7 +9,7 @@ void main() {
     // 在事件调度线程中启动GUI应用
     SwingUtilities.invokeLater(() -> {
         GameConfig.loadConfig();
-        BoardControl board = new BoardControl();
+        Board board = new Board();
         MergeLogic mergeLogic = new MergeLogic(board);  //逻辑类需要操控棋盘，传棋盘对象进去
         board.createBoard();
 

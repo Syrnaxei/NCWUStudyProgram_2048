@@ -2,7 +2,7 @@ package com.syrnaxei.game2048;
 
 import java.util.Random;
 
-public class BoardControl {
+public class Board {
     private int[][] board;
     private int score = 0;
     Random random = new Random();

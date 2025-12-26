@@ -3,9 +3,9 @@ package com.syrnaxei.game2048;
 import java.util.Arrays;
 
 public class MergeLogic {
-    private final BoardControl board;
+    private final Board board;
 
-    public MergeLogic(BoardControl board){
+    public MergeLogic(Board board){
         this.board = board;
     }
 
