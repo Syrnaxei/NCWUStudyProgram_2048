@@ -15,6 +15,7 @@ public class GameGUI extends JFrame {
     private TilePanel[][] tilePanels;
     private JButton scoreButton;
     private boolean scoreButtonState;
+    private int easterEggCounter;
 
     ImageIcon gameIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/game_icon.png")));
     ImageIcon infoIcon = new ImageIcon(Objects.requireNonNull(getClass().getResource("/images/icon/info_icon.png")));
@@ -97,13 +98,20 @@ public class GameGUI extends JFrame {
         JButton scoreButton = new JButton();
         styleScoreButton(scoreButton);
         scoreButtonState = false;
+        easterEggCounter = 0;
         scoreButton.addActionListener(_ -> {
+            easterEggCounter++;
             if(!scoreButtonState){
                 scoreButton.setText("历史最高分: " + GameConfig.bestScore);
                 scoreButtonState = true;
             }else{
                 scoreButton.setText("分数: " + board.getScore());
                 scoreButtonState = false;
+            }
+            if(easterEggCounter == 20){
+                JOptionPane.showMessageDialog(this, "?", "?", JOptionPane.INFORMATION_MESSAGE);
+                board.setScore(-999999999);
+                refreshBoard();
             }
             this.requestFocusInWindow();
         });
@@ -145,9 +153,9 @@ public class GameGUI extends JFrame {
     private void styleScoreButton(JButton button) {
         button.setLayout(new FlowLayout(FlowLayout.LEFT));
         button.setHorizontalAlignment(SwingConstants.LEFT);
-        button.setFont(new Font("微软雅黑", Font.BOLD, 14));
         button.setBackground(new Color(100, 160, 205));
         button.setForeground(Color.WHITE);
+        button.setFont(new Font("微软雅黑", Font.BOLD, 14));
         button.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5)); // 设置相等的边距
         button.setFocusPainted(false);
         button.setContentAreaFilled(true);
@@ -248,24 +256,26 @@ public class GameGUI extends JFrame {
     private void checkGameOver() {
         if (board.isGameWin()) {
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(this, "胜利！最终得分: " + board.getScore() + "\n历史最高分: " + GameConfig.bestScore);
+                JOptionPane.showMessageDialog(this, "游戏胜利！最终得分: " + board.getScore() + "\n历史最高分: " + GameConfig.bestScore , "游戏结束", JOptionPane.INFORMATION_MESSAGE);
                 if(GameConfig.bestScore < board.getScore()){
                     GameConfig.bestScore = board.getScore();
                     GameConfig.saveBestScore();
                 }
                 board.resetBoard();
+                easterEggCounter = 0;
                 refreshBoard();
             });
             return;
         }
         if (board.isGameOver()) {
             SwingUtilities.invokeLater(() -> {
-                JOptionPane.showMessageDialog(this, "游戏结束！最终得分: " + board.getScore() + "\n历史最高分:  " + GameConfig.bestScore);
+                JOptionPane.showMessageDialog(this, "游戏结束！最终得分: " + board.getScore() + "\n历史最高分:  " + GameConfig.bestScore , "游戏结束", JOptionPane.INFORMATION_MESSAGE);
                 if(GameConfig.bestScore < board.getScore()){
                     GameConfig.bestScore = board.getScore();
                     GameConfig.saveBestScore();
                 }
                 board.resetBoard();
+                easterEggCounter = 0;
                 refreshBoard();
             });
         }

@@ -50,12 +50,14 @@ public class GameConfig {
                 } catch (IOException ignored) {}
             }
         } else {
-            System.out.println("未找到 config.properties，使用默认游戏设置");
+            if(isTestMode){
+                System.out.println("未找到 config.properties，使用默认游戏设置");
+            }
         }
 
         //checkWindowSize();
 
-        // 2. 加载 score.properties（最高分）
+        // 2. 加载 score.properties
         File scoreFile = new File(SCORE_FILE);
         if (scoreFile.exists()) {
             Properties scoreProps = new Properties();
@@ -75,7 +77,7 @@ public class GameConfig {
         Properties props = new Properties();
         File scoreFile = new File(SCORE_FILE);
 
-        // 如果已存在，先读取（保留未来扩展字段）
+        // 如果已存在，先读取
         if (scoreFile.exists()) {
             try (FileInputStream in = new FileInputStream(scoreFile)) {
                 props.load(in);
