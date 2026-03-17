@@ -14,8 +14,8 @@ cd NCWUStudyProject_2048
 ### 2. 运行游戏
 
 ```bash
-javac -cp src/main/java src/main/java/com/syrnaxei/game2048/GameMainGui.java
-java -cp src/main/java GameMainGui
+javac -cp src/main/java src/main/java/com/syrnaxei/game2048/com.syrnaxei.com.syrnaxei.game2048.GameMainGui.java
+java -cp src/main/java com.syrnaxei.com.syrnaxei.game2048.GameMainGui
 ```
 ## 程序结构
 
@@ -35,7 +35,7 @@ NCWUStudyProject_2048
         │   │           └── gui
         │   │               ├── GameGUI.java        # 游戏GUI核心
         │   │               └── InfoGUI.java        # 信息展示GUI
-        │   └── GameMainGui.java                    # 游戏入口
+        │   └── com.syrnaxei.com.syrnaxei.game2048.GameMainGui.java                    # 游戏入口
         │
         └── resources
             ├── images

@@ -1,4 +1,4 @@
-package com.syrnaxei.gui;
+package com.syrnaxei.game2048.gui;
 
 import javax.swing.*;
 import java.awt.*;

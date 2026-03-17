@@ -1,5 +1,9 @@
 package com.syrnaxei.game2048;
 
+import com.syrnaxei.game2048.controller.Board;
+import com.syrnaxei.game2048.controller.InputHandle;
+import com.syrnaxei.game2048.model.MergeLogic;
+
 public class GameMainTerminal {
     public static void main(String[] args) {
         //==================================  棋盘初始化  ==================================

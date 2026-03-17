@@ -1,7 +1,7 @@
-import com.syrnaxei.game2048.Board;
-import com.syrnaxei.game2048.GameConfig;
-import com.syrnaxei.game2048.MergeLogic;
-import com.syrnaxei.gui.GameGUI;
+import com.syrnaxei.game2048.controller.Board;
+import com.syrnaxei.game2048.model.GameConfig;
+import com.syrnaxei.game2048.model.MergeLogic;
+import com.syrnaxei.game2048.gui.GameGUI;
 
 import javax.swing.*;
 

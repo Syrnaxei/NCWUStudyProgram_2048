@@ -1,4 +1,4 @@
-package com.syrnaxei.game2048;
+package com.syrnaxei.game2048.model;
 
 import java.io.*;
 import java.util.Properties;

@@ -1,4 +1,6 @@
-package com.syrnaxei.game2048;
+package com.syrnaxei.game2048.model;
+
+import com.syrnaxei.game2048.controller.Board;
 
 import java.util.Arrays;
 

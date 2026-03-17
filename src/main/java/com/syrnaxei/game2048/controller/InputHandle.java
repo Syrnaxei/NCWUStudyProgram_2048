@@ -1,4 +1,7 @@
-package com.syrnaxei.game2048;
+package com.syrnaxei.game2048.controller;
+
+import com.syrnaxei.game2048.model.GameConfig;
+import com.syrnaxei.game2048.model.MergeLogic;
 
 import java.util.Scanner;
 
