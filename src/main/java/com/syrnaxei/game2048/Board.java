@@ -67,8 +67,8 @@ public class Board {
         return score;
     }
 
-    public void setScore(int score){
-        this.score += score;
+    public void addScore(int amount){
+        this.score += amount;
     }
 
     //===================================  游戏失败 方法  ===================================
